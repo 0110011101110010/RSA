@@ -1,0 +1,7 @@
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\bin\Debug\RSA.exe.config
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\bin\Debug\RSA.exe
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\bin\Debug\RSA.pdb
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\obj\Debug\RSA.csprojAssemblyReference.cache
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\obj\Debug\RSA.csproj.CoreCompileInputs.cache
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\obj\Debug\RSA.exe
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\3. PD\RSA\RSA\obj\Debug\RSA.pdb
