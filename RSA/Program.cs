@@ -12,10 +12,12 @@ namespace RSA
     {
         static void Main(string[] args)
         {
+
             int p = 11;
             int q = 13;
             int n = p * q; // šifravimui ir dešifravimui
-            int e = 7; // šifravimui
+            // e ir d turi būti apskaičiuojami metode
+            int e = E(p, q);
             int d = 103; // dešifravimui
             string message = "qwertyuiop[]asdfghjkl;'\\zxcvbnm,./1234567890-=ąčęėįšųūž`~!@#$%^&*()_+"; // šifruojamas tekstas
 
@@ -23,6 +25,7 @@ namespace RSA
 
             string decryptedMessage = RSADecrypt(encryptedMessage, n, d);
 
+            Console.WriteLine("Original message: " + message);
             Console.WriteLine("Encrypted message: " + encryptedMessage);
             Console.WriteLine("Decrypted message: " + decryptedMessage);
         }
@@ -41,11 +44,11 @@ namespace RSA
             for(int i = 0; i < dataToEncrypt.Length; i++)
             {
                 BigInteger x = Pow(dataToEncrypt[i], e) % n;
-                Console.Write(x + " "); // Testing values
-                
+                //Console.Write(x + " "); // Testing values
+
                 encryptedData += (char)(x); // Converting to char makes ASCII values to symbols
             }
-            Console.WriteLine(); // Testing values
+            //Console.WriteLine(); // Testing values
 
             return encryptedData;
         }
@@ -64,11 +67,11 @@ namespace RSA
             for (int i = 0; i < dataToDecrypt.Length; i++)
             {
                 BigInteger x = Pow(dataToDecrypt[i], d) % n;
-                Console.Write(x + " "); // Testing values
+                //Console.Write(x + " "); // Testing values
 
                 decryptedData += (char)(x);
             }
-            Console.WriteLine(); // Testing values
+            //Console.WriteLine(); // Testing values
 
             return decryptedData;
         }
@@ -81,6 +84,48 @@ namespace RSA
                 c = c * a;
             }
             return c;
+        }
+
+        public static int E(int p, int q)
+        {
+            int e = 0;
+            int phi;
+            phi = (p - 1) * (q - 1);
+            for (int i = 0; i < phi - 2; i++)
+            {
+                e = i + 2;
+                if(GCD(phi, e) == 1)
+                {
+                    return e;
+                }
+            }
+            return e;
+        }
+
+        public static int GCD(int x, int y)
+        {
+            if(x < y)
+            {
+                int tempX = x;
+                x = y;
+                y = tempX;
+            }
+
+            int divisor = 0;
+
+            while (divisor != 1)
+            {
+                divisor = x % y;
+                if (divisor == 0)
+                {
+                    divisor = y;
+                    break;
+                }
+                x = y;
+                y = divisor;
+            }
+
+            return divisor;
         }
     }
 }
