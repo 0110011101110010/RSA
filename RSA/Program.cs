@@ -12,22 +12,21 @@ namespace RSA
     {
         static void Main(string[] args)
         {
-
             int p = 11;
             int q = 13;
             int n = p * q; // šifravimui ir dešifravimui
-            // e ir d turi būti apskaičiuojami metode
-            int e = E(p, q);
-            int d = 103; // dešifravimui
-            string message = "qwertyuiop[]asdfghjkl;'\\zxcvbnm,./1234567890-=ąčęėįšųūž`~!@#$%^&*()_+"; // šifruojamas tekstas
+            int e = E(p, q); // patikrinimui: jei p = 11 ir q = 13, tai e = 7
+            int d = D(p, q); // patikrinimui: jei p = 11 ir q = 13, tai d = 107
+            string x = "qwertyuiop[]asdfghjkl;'\\zxcvbnm,./1234567890-=ąčęėįšųūž`~!@#$%^&*()_+"; // pradinis tekstas
 
-            string encryptedMessage = RSAEncrypt(message, n, e);
+            string y = RSAEncrypt(x, n, e); // užšifruotas tekstas
 
-            string decryptedMessage = RSADecrypt(encryptedMessage, n, d);
+            string decryptedMessage = RSADecrypt(y, n, d);
 
-            Console.WriteLine("Original message: " + message);
-            Console.WriteLine("Encrypted message: " + encryptedMessage);
+            Console.WriteLine("Original message: " + x);
+            Console.WriteLine("Encrypted message: " + y);
             Console.WriteLine("Decrypted message: " + decryptedMessage);
+            Console.WriteLine("Encrypted message + ");
         }
 
         public static string RSAEncrypt(string dataToEncrypt, int n, int e)
@@ -89,43 +88,114 @@ namespace RSA
         public static int E(int p, int q)
         {
             int e = 0;
-            int phi;
-            phi = (p - 1) * (q - 1);
+            int phi = (p - 1) * (q - 1);
+
             for (int i = 0; i < phi - 2; i++)
             {
                 e = i + 2;
-                if(GCD(phi, e) == 1)
-                {
+
+                if(GCD(phi, e) == 1) // e yra tinkamas, jei tenkina tokią sąlygą
                     return e;
-                }
             }
             return e;
         }
 
         public static int GCD(int x, int y)
         {
-            if(x < y)
+            if(x < y) // daliklis - y
             {
                 int tempX = x;
                 x = y;
                 y = tempX;
             }
 
-            int divisor = 0;
+            int divisor = y;
 
-            while (divisor != 1)
+            while (x % y > 0)
             {
                 divisor = x % y;
-                if (divisor == 0)
-                {
-                    divisor = y;
-                    break;
-                }
+
+                //if (divisor == 0) // dalinasi (vadinasi, jau turim didžiausią daliklį)
+                  //  return y; // grąžinam didžiausią daliklį
+
+                x = y;
+                y = divisor;
+            }
+            return divisor; // grąžinam didžiausią daliklį
+        }
+
+        public static int EGCD(int a, int b) // DBD Euklido algoritmu
+        {
+            int d = 0;
+            int[] s;
+            int[] t;
+            int[] r;
+            int cycleCount = 2;
+            if (a < b) // daliklis - y
+            {
+                int tempA = a;
+                a = b;
+                b = tempA;
+            }
+
+            int x = a, y = b;
+            int divisor;
+            for (int i = 0; x % y != 0; i++)
+            {
+                divisor = x % y;
+
+                x = y;
+                y = divisor;
+                cycleCount++;
+            }
+
+            x = a;
+            y = b;
+            r = new int[cycleCount];
+            s = new int[cycleCount];
+            t = new int[cycleCount];
+            r[0] = x;
+            r[1] = y;
+            for (int i = 0; x % y != 0; i++)
+            {
+                divisor = x % y;
+
+                r[i] = x;
+                r[i + 1] = y;
+                r[i + 2] = divisor;
                 x = y;
                 y = divisor;
             }
 
-            return divisor;
+            for (int i = 2; i < cycleCount; i++)
+            {
+                s[i] = 1;
+                t[i] = ((r[i - 2]) / (r[i - 1])) * -1;
+                int si = s[i];
+                int ti = t[i];
+                if (s[i - 1] != 0 && s[i - 2] == 0) // gūd
+                {
+                    t[i] = si + ti * t[i - 1];
+                    s[i] = ti * s[i - 1];
+                }
+                if (s[i - 1] != 0 && s[i - 2] != 0) // not gūd
+                {
+                    s[i] = s[i - 2] + ti * s[i - 1];
+                    t[i] = t[i - 2] + ti * t[i - 1];
+                }
+                d = t[i];
+            }
+            return d;
+        }
+
+        public static int D(int p, int q)
+        {
+            int phi = (p - 1) * (q - 1);
+            int e = E(p, q);
+            int d = EGCD(phi, e);
+            if (d < 0)
+                d = d + phi;
+            return d;
         }
     }
 }
