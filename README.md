@@ -1,5 +1,6 @@
 # 3 Praktinė Užduotis
 Sukurti RSA algoritmo šifravimo/dešifravimo sistemą. Sistemos lange įvedamas tekstas ir užšifruojamas RSA algoritmu. Kitame laukelyje užšifruotas turi būti dešifruojamas. Pradiniai duomenys: pradinis tekstas x. Rezultatas: užšifruotas tekstas y.  
+
 **5 taškai** - realizuoti aplikaciją, kurios funkcionalumas paminėtas pradinėje sąlygoje.  
 **4 taškai** už algoritmo realizavimą be bibliotekos pagalbos.  
 **2 taškai** - **rezultatas** ir **viešasis raktas** saugojami duomenų bazėje arba failų sistemoje. Nuskaityti duomenų bazės įrašus arba failų turinį norint dešifruoti tekstą.  
