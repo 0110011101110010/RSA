@@ -37,37 +37,47 @@ namespace RSAWindowsFormsApp
 
                 int n = p * q;
                 int e = E(p, q);
-                int d = D(p, q);
 
 
-                string y = RSAEncrypt(x, n, e); // užšifruotas tekstas
+                string y = RSAEncrypt(x, n, e);
 
-                File.WriteAllText("key.txt", y + "\n" + n + "\n" + d);
+                File.WriteAllText("key.txt", y + "\n" + n + "\n" + e); // update
 
                 textBox3.Text = y;
                 textBox4.Text = y;
 
                 button2.Enabled = true;
-
-                button1.Enabled = false;
-                textBox1.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
             }
 
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs eA)
         {
             using (StreamReader reader = new StreamReader("key.txt"))
             {
+                int p = 0;
+                int q = 0;
                 string y = reader.ReadLine();
 
                 if (checkBox1.Checked == false)
                     y = textBox4.Text;
-
                 Int32.TryParse(reader.ReadLine(), out int n);
-                Int32.TryParse(reader.ReadLine(), out int d);
+                Int32.TryParse(reader.ReadLine(), out int e); // update
+
+                for (int j = 2; j < 1009; j++)
+                {
+                    if (IsPrimaryNumber(j))
+                    {
+                        if ((q = PrimaryNumber(j, n)) != 0)
+                        {
+                            p = j;
+                            q = PrimaryNumber(j, n);
+                            break;
+                        }
+                    }
+                }
+
+                int d = D(p, q);
                 string decryptedMessage = RSADecrypt(y, n, d);
                 textBox2.Text = decryptedMessage;
             }
@@ -239,6 +249,23 @@ namespace RSAWindowsFormsApp
             }
 
             return true;
+        }
+
+        // j - pirmas pirminis skaičius (p)
+        // i - antras pirminis skaičius (q)
+        public static int PrimaryNumber(int j, int n)
+        {
+            if (IsPrimaryNumber(j))
+            {
+                for (int i = 2; i < 1009; i++)
+                {
+                    if (IsPrimaryNumber(i))
+                        if (j * i == n)
+                            return i;
+                }
+            }
+
+            return 0;
         }
     }
 }
