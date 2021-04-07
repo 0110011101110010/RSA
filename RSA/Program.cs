@@ -6,18 +6,48 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Numerics;
 
+
 namespace RSA
 {
     class Program
     {
         static void Main(string[] args)
         {
+            PrimaryNumbers(11);
+            /*
+            int a = 0;
+            string v1 = "0";
+            while (a == 0)
+            {
+                Console.WriteLine("Kokį veiksmą norite atlikti?\n1. Šifruoti\n2. Dešifruoti\nĮveskite 1 arba 2:");
+                v1 = Console.ReadLine();
+                if (v1 == "1")
+                    a++;
+                else
+                    Console.WriteLine("Pradžioj turite užšifruoti, kad galėtumėt dešifruoti.");
+            }
+
+            a = 0;
+            string x = null;
+            while (a == 0)
+            {
+                Console.WriteLine("Įveskite šifruojamą žinutę: ");
+                x = Console.ReadLine();
+                a++;
+            }
+
+
+
+            // pradiniai duomenys:
             int p = 11;
             int q = 13;
+            //x = "qwertyuiop[]asdfghjkl;'\\zxcvbnm,./1234567890-=ąčęėįšųūž`~!@#$%^&*()_+"; // pradinis tekstas
+
+            // duomenys šifravimui ir dešifravimui:
             int n = p * q; // šifravimui ir dešifravimui
             int e = E(p, q); // patikrinimui: jei p = 11 ir q = 13, tai e = 7
             int d = D(p, q); // patikrinimui: jei p = 11 ir q = 13, tai d = 107
-            string x = "qwertyuiop[]asdfghjkl;'\\zxcvbnm,./1234567890-=ąčęėįšųūž`~!@#$%^&*()_+"; // pradinis tekstas
+
 
             string y = RSAEncrypt(x, n, e); // užšifruotas tekstas
 
@@ -27,6 +57,7 @@ namespace RSA
             Console.WriteLine("Encrypted message: " + y);
             Console.WriteLine("Decrypted message: " + decryptedMessage);
             Console.WriteLine("Encrypted message + ");
+            */
         }
 
         public static string RSAEncrypt(string dataToEncrypt, int n, int e)
@@ -196,6 +227,19 @@ namespace RSA
             if (d < 0)
                 d = d + phi;
             return d;
+        }
+
+        public static void PrimaryNumbers(int x)
+        {
+            for(int i = 2; i < x; i++)
+            {
+                if(x%i==0)
+                {
+                    Console.WriteLine(x + " is not a primary number");
+                    break;
+                }
+            }
+            Console.WriteLine(x + " is a primary number");
         }
     }
 }
